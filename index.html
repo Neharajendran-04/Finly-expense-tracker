@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Google Font links -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+    
+  <!-- Fontawesome cdn link -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.css"
+    integrity="sha512-x9WwyMYBnlXMNQ6kQ/Lyzu1NqIhLQKL5Oq6xByfXuRj7s9CskyCbLv/1IjqzJmXwFXWr0ov6jBV7Qbc0hh9nHg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer">
+
+    <!-- Chart link -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+
+  <!-- tailwind css cdn link-->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="stylesheet" href="./style.css">
+
+  <script>
+    document.documentElement.setAttribute(
+      'data-theme',
+      localStorage.getItem('theme') || 'light'
+    );
+  </script>
+  <link rel="icon" type="image/png" href="./images/favicon.png">
+  <title>FINLY</title>
+</head>
+
+<body>
+  <div class="min-h-screen">
+    <!--  NAVBAR -->
+    <header class="navbar flex justify-between items-center">
+      <a href="#" class="brand">
+        <span class="brand-mark">
+          <i class="fa-solid fa-chart-pie"></i>
+        </span>
+        <span class="brand-name">Finly<span class="brand-dot">.</span></span>
+      </a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Open navigation menu" aria-expanded="false"
+        aria-controls="mainNav" type="button">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <nav class="main-nav" id="mainNav">
+        <a href="#" class="nav-link active">
+          Dashboard
+        </a>
+        <a href="#transactions" class="nav-link">
+          Transactions
+        </a>
+        <a href="#analytics" class="nav-link">
+          Analytics
+        </a>
+      </nav>
+
+      <div class="navbar-actions">
+        <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme"></button>
+        <a href="./transactionform.html" class="add-transaction-btn">
+          <i class="fa-solid fa-plus"></i>
+          <span>Add Transaction</span>
+        </a>
+
+        <div class="profile">
+          <div class="profile-avatar">N</div>
+          <div class="profile-info">
+            <span class="profile-name">My Finances</span>
+            <span class="profile-label">Personal Dashboard</span>
+          </div>
+        </div>
+      </div>
+
+    </header>
+
+    <main class="min-h-screen">
+      <header class="dashboard-header">
+        <div>
+          <p class="dashboard-eyebrow">YOUR MONEY, IN FOCUS</p>
+          <h1>
+            Your finances, at a glance.
+          </h1>
+          <p class="dashboard-subtitle">
+            A clearer view of what you earn, spend, and save.
+          </p>
+        </div>
+        <div class="dashboard-context">
+          <span class="context-month">All time</span>
+          <span class="context-label">Overall summary</span>
+        </div>
+      </header>
+
+
+      <div class="summary-grid">
+        <!-- Total Balance -->
+        <div class="summary-card balance-card">
+          <div class="summary-card-top">
+            <div>
+              <p class="summary-label text-white">TOTAL BALANCE</p>
+              <h2 id="balance" class="summary-value text-3xl font-semibold text-white">
+                ₹0
+              </h2>
+            </div>
+
+            <div class="summary-icon balance-icon">
+              <i class="fa-solid fa-wallet"></i>
+            </div>
+          </div>
+
+          <div class="summary-card-bottom">
+            <span class="summary-description">
+              Your current available balance
+            </span>
+
+            <span class="summary-status">
+              <i class="fa-solid fa-circle"></i>
+              Available
+            </span>
+          </div>
+        </div>
+
+
+        <!-- Total Income -->
+        <div class="summary-card income-card">
+          <div class="summary-card-top">
+            <div>
+              <p class="summary-label">TOTAL INCOME</p>
+              <h2 id="totalincome" class="summary-value">₹0</h2>
+            </div>
+
+            <div class="summary-icon income-icon">
+              <i class="fa-solid fa-coins"></i>
+            </div>
+          </div>
+
+          <div class="summary-card-bottom">
+            <span class="summary-description">
+              Total money received
+            </span>
+
+            <span class="summary-status positive">
+              <i class="fa-solid fa-arrow-up"></i>
+              Income
+            </span>
+          </div>
+        </div>
+
+
+        <!-- Total Expense -->
+        <div class="summary-card  expense-card">
+          <div class="summary-card-top">
+            <div>
+              <p class="summary-label">TOTAL EXPENSE</p>
+              <h2 id="totalexpense" class="summary-value text-[#B4443A]">₹0</h2>
+            </div>
+            <div class="summary-icon expense-icon">
+              <i class="fa-solid fa-receipt"></i>
+            </div>
+          </div>
+
+          <div class="summary-card-bottom">
+            <span class="summary-description">
+              Total money spent
+            </span>
+            <span class="summary-status negative">
+              <i class="fa-solid fa-arrow-down"></i>
+              Expenses
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Charts -->
+      <div class="chart-grid grid grid-cols-1 lg:grid-cols-2 gap-6 px-8 mt-12 " id="analytics">
+        <div class="analytics-card">
+          <div class="analytics-card-header">
+            <div>
+              <p class="analytics-eyebrow">SPENDING OVERVIEW</p>
+              <h2>How your spending is moving</h2>
+              <p class="analytics-subtitle">
+                Your spending over the last 6 months
+              </p>
+            </div>
+          </div>
+
+
+          <div class="spending-chart-container">
+            <canvas id="spendingChart"></canvas>
+            <div id="spendingEmptyState" class="chart-empty-state" hidden>
+              <svg class="ghost-svg" viewBox="0 0 400 140" aria-hidden="true">
+                <path class="ghost-area"
+                  d="M0 120 C60 112 90 80 140 86 S220 36 280 50 S350 18 400 8 L400 140 L0 140 Z" />
+                <path class="ghost-line" d="M0 120 C60 112 90 80 140 86 S220 36 280 50 S350 18 400 8" />
+              </svg>
+              <p class="chart-empty-title">Your trend line lives here</p>
+              <p class="chart-empty-description">Log a couple of expenses and it'll start drawing itself.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="category-chart-wrapper">
+
+          <div class="category-chart-header">
+            <div>
+              <p class="category-eyebrow">SPENDING BREAKDOWN</p>
+              <h2>Where your money goes</h2>
+            </div>
+          </div>
+          <div class="category-chart-stage flex items-center justify-center">
+            <div class="category-chart-container">
+              <canvas id="categoryChart"></canvas>
+              <div id="categoryEmptyState" class="chart-empty-state" hidden>
+                <svg class="ghost-donut" viewBox="0 0 120 120" aria-hidden="true">
+                  <circle cx="60" cy="60" r="46" />
+                </svg>
+                <p class="chart-empty-title">Your spending story starts here</p>
+                <p class="chart-empty-description">Every category you spend on gets its own slice.</p>
+              </div>
+            </div>
+             <!--   Info card -->
+            <div id="categoryInfoCard" class="category-info-card">
+              <div class="info-card-dot" id="infoCardDot"></div>
+              <div>
+                <p id="infoCardCategory">Select a category</p>
+                <h3 id="infoCardAmount">₹0</h3>
+                <span id="infoCardPercentage">0% of spending</span>
+              </div>
+
+            </div>
+            <!-- Category legend -->
+            <div id="categoryLegend" class="category-legend"></div>
+          </div>
+        </div>
+      </div>
+      <div class="transaction-filters">
+   <div >
+      <label for="typeFilter">Filter by type:</label>
+  
+      <select id="typeFilter">
+          <option value="all">All transactions</option>
+          <option value="income">Income</option>
+          <option value="expense">Expense</option>
+      </select>
+   </div>
+
+   <div>
+      <label for="categoryFilter">Filter by category:</label>
+  
+  <select id="categoryFilter">
+      <option value="all">All categories</option>
+      <option value="food">Food & Dining</option>
+      <option value="transport">Transport</option>
+      <option value="shopping">Shopping</option>
+      <option value="bills">Bills & Utilities</option>
+      <option value="entertainment">Entertainment</option>
+      <option value="health">Health</option>
+      <option value="education">Education</option>
+      <option value="housing">Housing & Rent</option>
+      <option value="personal-care">Personal Care</option>
+      <option value="salary">Salary</option>
+      <option value="freelance">Freelance</option>
+      <option value="business">Business</option>
+      <option value="investment">Investment</option>
+      <option value="gift">Gift</option>
+      <option value="refund">Refund</option>
+      <option value="other">Other</option>
+  </select>
+   </div>
+<div>
+    <label for="startDate">From:</label>
+    <input  type="date" id="startDate">
+</div>
+
+<div>
+    <label for="endDate">To:</label>
+    <input  type="date" id="endDate">
+</div>
+<div>
+    <label for="sortFilter">Sort by:</label>
+
+    <select  id="sortFilter">
+        <option value="newest">Newest first</option>
+        <option value="oldest">Oldest first</option>
+        <option value="highToLow">Amount: High to low</option>
+        <option value="lowToHigh">Amount: Low to high</option>
+    </select>
+</div>
+
+</div>
+
+      <div class="mx-8 mt-10">
+     
+          <div class="mb-3">
+            <p class="text-xs font-semibold tracking-widest text-gray-400 uppercase">
+              ACTIVITY
+            </p>
+            <h2 class="text-xl font-semibold text-gray-900 mt-1">
+              Recent Transactions
+            </h2>
+          </div>
+
+        <div id="transactions"
+          class="bg-transparent border-0 overflow-visible md:rounded-2xl md:border md:border-gray-200  md:overflow-hidden">
+          <div class="hidden md:block">
+            <table class="w-full border-collapse">
+              <thead>
+                <tr class="table-head">
+                  <th class="p-4 text-left text-[11px] font-semibold tracking-wider text-white uppercase">
+                    Description
+                  </th>
+                  <th class="p-4 text-left text-[11px] font-semibold tracking-wider text-white uppercase">
+                    Amount
+                  </th>
+                  <th class="p-4 text-left text-[11px] font-semibold tracking-wider text-white uppercase">
+                    Type
+                  </th>
+
+                  <th class="p-4 text-left text-[11px] font-semibold tracking-wider text-white uppercase">
+                    Date
+                  </th>
+
+                  <th class="p-4 text-left text-[11px] font-semibold tracking-wider text-white uppercase">
+                    Action
+                  </th>
+
+                </tr>
+              </thead>
+
+              <tbody id="tablebody">
+              </tbody>
+            </table>
+          </div>
+          <div id="mobileTransactions" class="md:hidden flex flex-col gap-3 p-3"></div>
+
+        </div>
+      </div>
+
+    </main>
+
+  </div>
+   <script src="./main.js"></script>
+</body>
+
+
+</html>
