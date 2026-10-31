@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <title>Finly — Add Transaction</title>
+  <script>
+    document.documentElement.setAttribute(
+      'data-theme',
+      localStorage.getItem('theme') || 'light'
+    );
+  </script>
+   <link rel="icon" type="image/png" href="./images/favicon.png">
+
+  <style>
+    :root {
+      --form-bg: url("./images/transaction-form-bg-dark.png");
+      --bg-a: #14100D;
+      --card: #1F1814;
+      --card-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+      --form-card: rgba(31, 24, 20, 0.35);
+      --form-border: rgba(251, 146, 60, 0.28);
+      --input-bg: rgba(255, 255, 255, 0.06);
+      --input-border: rgba(255, 255, 255, 0.14);
+
+      --text: #FFF4EA;
+      --muted: #B8A294;
+      --accent-text: #FB923C;
+      --chip: rgba(242, 107, 29, 0.15);
+
+      color-scheme: dark;
+    }
+
+    [data-theme="light"] {
+      --form-bg: url("./images/transaction-form-bg-light.png");
+      --bg-a: #FFFCF9;
+      --card: #FFFFFF;
+      --card-shadow: 0 8px 30px rgba(23, 32, 29, 0.05);
+      --form-card: #FFFFFF;
+      --form-border: #E8EAE7;
+      --input-bg: #FAFBFA;
+      --input-border: #E8EAE7;
+      --text: #2B1A12;
+      --muted: #8A6A58;
+      --accent-text: #C2540F;
+      --chip: #FFE4D0;
+      color-scheme: light;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background-color: var(--bg-a);
+      background-image: var(--form-bg);
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      color: var(--text);
+    }
+
+    .back-link {
+      color: var(--muted);
+      transition: color 0.2s ease;
+    }
+
+    .back-link:hover {
+      color: var(--accent-text);
+    }
+
+    .form-card {
+      background: var(--form-card);
+      border: 1px solid var(--form-border);
+      border-radius: 18px;
+      box-shadow: var(--card-shadow);
+      backdrop-filter: blur(14px) saturate(140%);
+      -webkit-backdrop-filter: blur(14px) saturate(140%);
+      overflow: hidden;
+    }
+
+    .form-divider {
+      border-color: var(--form-border);
+    }
+
+    .form-icon {
+      background: var(--chip);
+      color: #F26B1D;
+    }
+
+    .form-eyebrow {
+      color: var(--accent-text);
+    }
+
+    .form-title,
+    .field-label {
+      color: var(--text);
+    }
+
+    .form-sub,
+    .currency {
+      color: var(--muted);
+    }
+    .form-input,
+    .form-select {
+      background: var(--input-bg);
+      color: var(--text);
+      border: 1px solid var(--input-border);
+      transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background-color 0.2s ease;
+    }
+
+    .form-input::placeholder {
+      color: var(--muted);
+      opacity: 0.7;
+    }
+
+    .form-input:focus,
+    .form-select:focus {
+      outline: none;
+      border-color: #F26B1D;
+      background: rgba(242, 107, 29, 0.08);
+      box-shadow: 0 0 0 3px rgba(242, 107, 29, 0.2);
+    }
+
+    .form-select option {
+      background: var(--card);
+      color: var(--text);
+    }
+
+    .cancel-btn {
+      color: var(--muted);
+      transition: color 0.2s ease, background 0.2s ease;
+    }
+
+    .cancel-btn:hover {
+      color: var(--text);
+      background: var(--chip);
+    }
+
+    .save-btn {
+      background: linear-gradient(90deg, #C2540F, #F26B1D, #FB923C);
+      color: #FFFFFF;
+      transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+    }
+
+    .save-btn:hover {
+      background: #C2540F;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgba(194, 84, 15, 0.28);
+    }
+
+    .save-btn:active {
+      transform: translateY(0);
+    }
+  </style>
+</head>
+
+<body>
+  <main class="min-h-screen flex items-center justify-center px-3 sm:px-6 py-8 sm:py-12">
+    <div class="w-full max-w-2xl">
+      <a href="./index.html" class="back-link inline-flex items-center gap-2 mb-6 text-sm font-medium">
+        <i class="fa-solid fa-arrow-left"></i>
+        Back to Dashboard
+      </a>
+      <div class="form-card">
+        <!-- Header -->
+        <div class="form-divider px-8 pt-8 pb-6 border-b">
+          <div class="flex items-start gap-4">
+            <div class="form-icon w-11 h-11 rounded-xl flex items-center justify-center shrink-0">
+              <i class="fa-solid fa-receipt"></i>
+            </div>
+
+            <div>
+              <p class="form-eyebrow text-[11px] font-semibold tracking-[0.14em]">
+                TRANSACTION
+              </p>
+
+              <h1 id="formTitle" class="form-title text-2xl font-semibold mt-1">
+                Add Transaction
+              </h1>
+
+              <p class="form-sub text-sm mt-1">
+                Record an income or expense to keep your finances up to date.
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+
+        <form action="" id="transactionform" class="p-8">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="md:col-span-2">
+              <label for="desc" class="field-label block text-sm font-medium mb-2">
+                Description
+              </label>
+
+              <input type="text" placeholder="e.g. Grocery shopping" id="desc"
+                class="form-input w-full h-11 px-3.5 rounded-xl text-sm">
+            </div>
+            <div>
+              <label for="amt" class="field-label block text-sm font-medium mb-2 ">
+                Amount
+              </label>
+
+              <div class="relative">
+                <span class="currency absolute left-3.5 top-1/2 -translate-y-1/2 text-sm font-medium">
+                  ₹
+                </span>
+
+                <input type="text" inputmode="decimal" placeholder="0.00" id="amt"
+                  class="form-input w-full h-11 pl-8 pr-3.5 rounded-xl text-sm">
+              </div>
+            </div>
+
+            <div>
+              <label for="type" class="field-label block text-sm font-medium mb-2">
+                Type
+              </label>
+
+              <select name="" id="type" class="form-select w-full h-11 px-3.5 rounded-xl text-sm">
+                <option value="" hidden>Choose type</option>
+                <option value="expense">expense</option>
+                <option value="income">income</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="category" class="field-label block text-sm font-medium mb-2">
+                Category
+              </label>
+
+              <select name="" id="category" class="form-select w-full h-11 px-3.5 rounded-xl text-sm" required>
+                <option value="" selected disabled>Choose type first</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="date" class="field-label block text-sm font-medium mb-2">
+                Date
+              </label>
+
+              <input type="date" id="date" class="form-input w-full h-11 px-3.5 rounded-xl text-sm">
+            </div>
+
+          </div>
+
+          <div class="form-divider flex items-center justify-end gap-3 mt-8 pt-6 border-t">
+            <a href="./index.html"
+              class="cancel-btn px-5 h-11 inline-flex items-center justify-center rounded-xl text-sm font-medium">
+              Cancel
+            </a>
+
+            <button type="submit"  id="submitBtn" class="save-btn h-11 px-6 rounded-xl text-sm font-semibold">
+              <i class="fa-solid fa-check mr-2 text-xs"></i>
+              Save Transaction
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <script src="./transactionform.js"></script>
+
+</body>
+
+</html>
