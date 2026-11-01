@@ -771,6 +771,7 @@ function displayCategoryChart() {
       categoryChartInstance.destroy();
       categoryChartInstance = null;
     }
+        categoryCanvas.style.display = "none";
 
     const infoCard =
       document.getElementById("categoryInfoCard");
