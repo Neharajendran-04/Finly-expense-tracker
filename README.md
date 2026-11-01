@@ -9,13 +9,13 @@ Transaction data is saved in the browser using `localStorage`.
 ## Screenshots
 
 ### Dashboard – Light Mode
-![Finly Light Mode](Finly-light-theme-screenshot.png)
+![Finly Light Mode](./images/screenshots/Finly-light-theme-screenshot.png)
 
 ### Dashboard – Dark Mode
-![Finly Dark Mode](Finly-dark-theme-screenshot.png)
+![Finly Dark Mode](./images/screenshots/Finly-dark-theme-screenshot.png)
 
 ### Transactions
-![Finly Transactions](transactiontable-screenshot.png)
+![Finly Transactions](./images/screenshots/transactiontable-screenshot.png)
 
 ## Features
 
